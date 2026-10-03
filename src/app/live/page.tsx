@@ -194,8 +194,8 @@ export default function LivePage() {
               </p>
               <p className="mt-4 flex items-center gap-2 text-2xl font-bold text-[#a2f1e6]">
                 {activeClinicId === "pharmacy"
-                  ? (pharmacyReady?.name ? (isLoggedIn ? pharmacyReady.name : pharmacyReady.name.split(' ').map((n, i, arr) => i === arr.length - 1 && arr.length > 1 ? n.charAt(0) + '.' : n).join(' ')) : "No Medicines Ready")
-                  : (current?.name ? (isLoggedIn ? current.name : current.name.split(' ').map((n, i, arr) => i === arr.length - 1 && arr.length > 1 ? n.charAt(0) + '.' : n).join(' ')) : t("live", "queuePreparing"))}
+                  ? (pharmacyReady?.name ?? "No Medicines Ready")
+                  : (current?.name ?? t("live", "queuePreparing"))}
                 {activeClinicId !== "pharmacy" && current?.isReportCheck && <span className="rounded-full bg-[#00ffcc]/20 px-3 py-1 text-xs font-bold text-[#00ffcc] uppercase tracking-wider">Report Check</span>}
               </p>
             </div>
@@ -376,9 +376,7 @@ export default function LivePage() {
                             </div>
                           )}
                         </div>
-                        <p className="mt-1.5 text-base font-medium text-[#b9cbc2]">
-                          {isLoggedIn ? entry.name : entry.name.split(' ').map((n, i, arr) => i === arr.length - 1 && arr.length > 1 ? n.charAt(0) + '.' : n).join(' ')}
-                        </p>
+                        <p className="mt-1.5 text-base font-medium text-[#b9cbc2]">{entry.name}</p>
                       </div>
                     )})}
                     
