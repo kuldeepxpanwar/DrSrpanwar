@@ -300,6 +300,7 @@ function createQueueEntry(
         : null,
       requires_pharmacy_follow_up: Boolean(input.requiresPharmacyFollowUp),
       pharmacy_status: input.requiresPharmacyFollowUp ? "pending" : "not-needed",
+      arrived_at: input.arrivedAt ?? null,
     } satisfies QueueEntryRow,
     nextClinicDocument: {
       ...clinicDocument,
