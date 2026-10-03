@@ -274,7 +274,7 @@ export const clinicService = {
       return persistState(response.data.state);
     }
 
-    const state = await this.getClinicState(clinicId, { online: false });
+    const state = await this.loadState(clinicId, { online: false });
     const nextState = checkInState(state, entryId);
     return persistState(nextState);
   },
