@@ -331,6 +331,22 @@ export const clinicService = {
     return persistState(sortQueueState(rescheduleQueueEntryState(state, entryId)));
   },
 
+  
+  async setBookingState(
+    clinicId: ClinicId,
+    input: { bookingClosedToday?: boolean; bookingClosedTomorrow?: boolean }
+  ) {
+    if (hasRemoteSyncConfig()) {
+      const response = await apiClient.patch<{ state: ClinicState }>(
+        `/api/clinics/${clinicId}/state/booking`,
+        input,
+      );
+      return persistState(sortQueueState(response.data.state));
+    }
+    const state = await readClinicState(clinicId);
+    return persistState({ ...state, ...input });
+  },
+
   async setEmergencyState(
     clinicId: ClinicId,
     input: { emergencyClosed: boolean; emergencyMessage?: string },

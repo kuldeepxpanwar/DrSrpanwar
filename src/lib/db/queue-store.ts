@@ -29,6 +29,8 @@ type ClinicStateRow = {
   next_queue_order: number;
   emergency_closed: boolean;
   emergency_message: string;
+  booking_closed_today: boolean;
+  booking_closed_tomorrow: boolean;
   last_updated: string | Date;
   last_synced_at: string | Date;
 };
@@ -98,6 +100,8 @@ function createClinicDocument(clinicId: ClinicId): ClinicStateRow {
     next_queue_order: 1,
     emergency_closed: false,
     emergency_message: "",
+    booking_closed_today: false,
+    booking_closed_tomorrow: false,
     last_updated: baseState.lastUpdated,
     last_synced_at: baseState.lastSyncedAt ?? baseState.lastUpdated,
   };
@@ -151,6 +155,8 @@ function normalizeClinicState(
       : new Date().toISOString(),
     emergencyClosed: clinicDocument?.emergency_closed ?? false,
     emergencyMessage: clinicDocument?.emergency_message ?? "",
+    bookingClosedToday: clinicDocument?.booking_closed_today ?? false,
+    bookingClosedTomorrow: clinicDocument?.booking_closed_tomorrow ?? false,
     queue: queue.sort((first, second) => {
       const firstOrder = first.queueOrder ?? Number.MAX_SAFE_INTEGER;
       const secondOrder = second.queueOrder ?? Number.MAX_SAFE_INTEGER;
@@ -178,6 +184,8 @@ async function ensureClinicInitialized(sql: QueryableDb, clinicId: ClinicId) {
       next_queue_order,
       emergency_closed,
       emergency_message,
+      booking_closed_today,
+      booking_closed_tomorrow,
       last_updated,
       last_synced_at
     )
@@ -191,6 +199,8 @@ async function ensureClinicInitialized(sql: QueryableDb, clinicId: ClinicId) {
       ${document.next_queue_order},
       ${document.emergency_closed},
       ${document.emergency_message},
+      ${document.booking_closed_today},
+      ${document.booking_closed_tomorrow},
       ${toIsoString(document.last_updated)},
       ${toIsoString(document.last_synced_at)}
     )
@@ -326,6 +336,8 @@ export async function getRemoteClinicState(clinicId: ClinicId): Promise<ClinicSt
       next_queue_order,
       emergency_closed,
       emergency_message,
+      booking_closed_today,
+      booking_closed_tomorrow,
       last_updated,
       last_synced_at
     from clinic_states
@@ -385,7 +397,9 @@ async function upsertRemoteEntries(clinicId: ClinicId, entries: PendingSyncEntry
         next_token_number,
         next_queue_order,
         emergency_closed,
-        emergency_message,
+      emergency_message,
+      booking_closed_today,
+      booking_closed_tomorrow,
         last_updated,
         last_synced_at
       from clinic_states
@@ -479,6 +493,8 @@ async function upsertRemoteEntries(clinicId: ClinicId, entries: PendingSyncEntry
           next_queue_order = ${nextClinicDocument.next_queue_order},
           emergency_closed = ${nextClinicDocument.emergency_closed},
           emergency_message = ${nextClinicDocument.emergency_message},
+          booking_closed_today = ${nextClinicDocument.booking_closed_today},
+          booking_closed_tomorrow = ${nextClinicDocument.booking_closed_tomorrow},
           last_updated = ${syncTimestamp},
           last_synced_at = ${syncTimestamp}
         where clinic_id = ${clinicId}
@@ -749,7 +765,9 @@ export async function rescheduleRemoteQueueEntry(clinicId: ClinicId, entryId: st
         next_token_number,
         next_queue_order,
         emergency_closed,
-        emergency_message,
+      emergency_message,
+      booking_closed_today,
+      booking_closed_tomorrow,
         last_updated,
         last_synced_at
       from clinic_states
@@ -879,6 +897,45 @@ export async function setRemoteClinicEmergencyState(
       last_synced_at = ${timestamp}
     where clinic_id = ${clinicId}
   `;
+
+  return getRemoteClinicState(clinicId);
+}
+
+export async function updateClinicBookingState(
+  clinicId: ClinicId,
+  input: { bookingClosedToday?: boolean; bookingClosedTomorrow?: boolean },
+) {
+  const db = getDb();
+  const timestamp = new Date().toISOString();
+
+  await ensureClinicInitialized(db, clinicId);
+  
+  if (input.bookingClosedToday !== undefined && input.bookingClosedTomorrow !== undefined) {
+    await db`
+      update clinic_states
+      set booking_closed_today = ${input.bookingClosedToday},
+          booking_closed_tomorrow = ${input.bookingClosedTomorrow},
+          last_updated = ${timestamp},
+          last_synced_at = ${timestamp}
+      where clinic_id = ${clinicId}
+    `;
+  } else if (input.bookingClosedToday !== undefined) {
+    await db`
+      update clinic_states
+      set booking_closed_today = ${input.bookingClosedToday},
+          last_updated = ${timestamp},
+          last_synced_at = ${timestamp}
+      where clinic_id = ${clinicId}
+    `;
+  } else if (input.bookingClosedTomorrow !== undefined) {
+    await db`
+      update clinic_states
+      set booking_closed_tomorrow = ${input.bookingClosedTomorrow},
+          last_updated = ${timestamp},
+          last_synced_at = ${timestamp}
+      where clinic_id = ${clinicId}
+    `;
+  }
 
   return getRemoteClinicState(clinicId);
 }

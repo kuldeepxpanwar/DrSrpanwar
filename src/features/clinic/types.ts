@@ -70,6 +70,8 @@ export type ClinicState = {
   queue: QueueEntry[];
   emergencyClosed?: boolean;
   emergencyMessage?: string;
+  bookingClosedToday?: boolean;
+  bookingClosedTomorrow?: boolean;
   settings?: ClinicSettings;
 };
 

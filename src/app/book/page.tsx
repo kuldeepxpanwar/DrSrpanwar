@@ -186,8 +186,8 @@ export default function BookPage() {
             slots: s.slots || [], closed: s.closed || false,
           }));
 
-          const todayIsOpen = todayData?.isOpen ?? true;
-          const tomorrowIsOpen = tomorrowData?.isOpen ?? true;
+          const todayIsOpen = (todayData?.isOpen ?? true) && !state?.bookingClosedToday;
+          const tomorrowIsOpen = (tomorrowData?.isOpen ?? true) && !state?.bookingClosedTomorrow;
 
           setDayAvailability({
             Aaj: { isOpen: todayIsOpen, dateLabel: todayDateLabel, dayName: todayName, shiftGroups: todayShifts },
@@ -209,8 +209,8 @@ export default function BookPage() {
             const schedule: DayScheduleData[] = data.schedule || [];
             const todaySchedule = schedule.find((d) => d.dayName === todayName);
             const tomorrowSchedule = schedule.find((d) => d.dayName === tomorrowName);
-            const todayIsOpen = todaySchedule?.isOpen ?? true;
-            const tomorrowIsOpen = tomorrowSchedule?.isOpen ?? true;
+            const todayIsOpen = (todaySchedule?.isOpen ?? true) && !state?.bookingClosedToday;
+            const tomorrowIsOpen = (tomorrowSchedule?.isOpen ?? true) && !state?.bookingClosedTomorrow;
 
             setDayAvailability({
               Aaj: { isOpen: todayIsOpen, dateLabel: todayDateLabel, dayName: todayName, shiftGroups: [] },

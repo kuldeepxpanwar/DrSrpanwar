@@ -1,5 +1,5 @@
 import { readClinicId, ApiRouteError, jsonError } from "@/app/api/api-helpers";
-import { createRemoteBooking } from "@/lib/db/queue-store";
+import { createRemoteBooking, getRemoteClinicState } from "@/lib/db/queue-store";
 
 export const runtime = "nodejs";
 
@@ -23,7 +23,17 @@ export async function POST(
       throw new ApiRouteError("Booking form is incomplete.", 400);
     }
 
-    const state = await createRemoteBooking({
+    const state = await getRemoteClinicState(clinicId);
+    
+    if (body.dayLabel === "Aaj" && state.bookingClosedToday) {
+      throw new ApiRouteError("Booking is closed for today.", 403);
+    }
+    
+    if (body.dayLabel === "Kal" && state.bookingClosedTomorrow) {
+      throw new ApiRouteError("Booking is closed for tomorrow.", 403);
+    }
+
+    const newState = await createRemoteBooking({
       clinicId,
       dayLabel: body.dayLabel,
       slotLabel: body.slotLabel,
@@ -34,7 +44,7 @@ export async function POST(
       requiresPharmacyFollowUp: body.requiresPharmacyFollowUp,
     });
 
-    return Response.json({ state });
+    return Response.json({ state: newState });
   } catch (error) {
     return jsonError(error);
   }
