@@ -5,14 +5,14 @@ import { ClinicId } from "@/features/clinic/types";
 
 export async function POST(
   request: Request,
-  context: { params: Promise<{ clinicId: ClinicId; entryId: string }> }
+  context: { params: Promise<{ clinicId: string; entryId: string }> }
 ) {
   try {
     const { clinicId, entryId } = await context.params;
 
-    await updateRemoteQueueEntryArrivedAt(clinicId, entryId, new Date().toISOString());
+    await updateRemoteQueueEntryArrivedAt(clinicId as ClinicId, entryId, new Date().toISOString());
 
-    const state = await getRemoteClinicState(clinicId);
+    const state = await getRemoteClinicState(clinicId as ClinicId);
 
     return NextResponse.json({ success: true, state });
   } catch (error) {
