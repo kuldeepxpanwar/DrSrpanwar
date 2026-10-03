@@ -43,24 +43,24 @@ export function ClinicLiveStatusBanner({ clinicId }: { clinicId: ClinicId }) {
   }
 
   return (
-    <div className={`mt-5 sm:mt-6 mb-4 flex h-14 sm:h-16 w-full items-center overflow-hidden rounded-[16px] sm:rounded-[20px] text-white transition-all duration-300 ${wrapperClass}`}>
+    <div className={`mt-5 sm:mt-6 mb-4 flex h-16 sm:h-20 w-full items-center overflow-hidden rounded-[16px] sm:rounded-[24px] text-white transition-all duration-300 ${wrapperClass}`}>
       {/* Left Pane - Live Indicator */}
-      <div className="flex h-full items-center justify-center bg-[rgba(0,0,0,0.2)] px-4 sm:px-6 backdrop-blur-md z-10 border-r border-[rgba(255,255,255,0.15)] rounded-l-[16px] sm:rounded-l-[20px]">
-        <span className="relative flex h-3.5 w-3.5 sm:h-4 sm:w-4">
+      <div className="flex h-full items-center justify-center bg-[rgba(0,0,0,0.2)] px-5 sm:px-8 backdrop-blur-md z-10 border-r border-[rgba(255,255,255,0.15)] rounded-l-[16px] sm:rounded-l-[24px]">
+        <span className="relative flex h-4 w-4 sm:h-5 sm:w-5">
           <span className={`animate-ping absolute inline-flex h-full w-full rounded-full opacity-75 ${iconColor}`}></span>
-          <span className={`relative inline-flex rounded-full h-3.5 w-3.5 sm:h-4 sm:w-4 ${iconColor}`}></span>
+          <span className={`relative inline-flex rounded-full h-4 w-4 sm:h-5 sm:w-5 ${iconColor}`}></span>
         </span>
-        <span className="ml-2.5 text-sm sm:text-base font-black tracking-widest uppercase text-white drop-shadow-sm">Live</span>
+        <span className="ml-3 text-base sm:text-xl font-black tracking-[0.2em] uppercase text-white drop-shadow-md">Live</span>
       </div>
       
       {/* Marquee Container */}
       <div className="relative flex h-full flex-1 items-center overflow-hidden">
         {/* We use two spans for continuous smooth marquee effect */}
-        <div className="animate-marquee whitespace-nowrap px-4 py-2 font-bold text-base sm:text-lg tracking-wide drop-shadow-md">
+        <div className="animate-marquee whitespace-nowrap px-4 py-2 font-bold text-lg sm:text-2xl tracking-wide drop-shadow-lg">
           {schedule.message}
-          <span className="mx-8 text-[rgba(255,255,255,0.5)]">•</span>
+          <span className="mx-10 text-[rgba(255,255,255,0.5)]">•</span>
           {schedule.message}
-          <span className="mx-8 text-[rgba(255,255,255,0.5)]">•</span>
+          <span className="mx-10 text-[rgba(255,255,255,0.5)]">•</span>
           {schedule.message}
         </div>
       </div>
