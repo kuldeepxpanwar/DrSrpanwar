@@ -66,6 +66,7 @@ type PendingSyncEntry = {
   provisionalToken?: string;
   provisionalBookingId?: string;
   requiresPharmacyFollowUp?: boolean;
+  arrivedAt?: string;
 };
 
 function sanitizeMobile(value: string) {
