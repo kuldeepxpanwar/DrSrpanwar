@@ -11,6 +11,7 @@ import {
   setEmergencyStateState,
   syncPendingState,
   updateQueueStatusState,
+  checkInState,
 } from "@/features/clinic/services/queue-engine";
 import { readClinicState, writeClinicState } from "@/features/clinic/storage/indexed-db";
 import type {
@@ -258,6 +259,24 @@ export const clinicService = {
 
     const state = await readClinicState(clinicId);
     return persistState(sortQueueState(advanceQueueState(state)));
+  },
+
+  async checkIn(
+    clinicId: ClinicId,
+    entryId: string,
+    options: { online?: boolean } = {},
+  ) {
+    if ((options.online ?? true) && hasRemoteSyncConfig()) {
+      const response = await apiClient.post<{ state: ClinicState }>(
+        `/api/clinics/${clinicId}/entries/${entryId}/check-in`,
+        {},
+      );
+      return persistState(response.state);
+    }
+
+    const state = await this.getClinicState(clinicId, { online: false });
+    const nextState = checkInState(state, entryId);
+    return persistState(nextState);
   },
 
   async updateQueueStatus(

@@ -83,6 +83,21 @@ export default function StatusPage() {
     };
   }, [selectedEntry]);
 
+  const [isCheckingIn, setIsCheckingIn] = useState(false);
+
+  const handleCheckIn = async () => {
+    if (!selectedEntry) return;
+    setIsCheckingIn(true);
+    try {
+      const { clinicService } = await import("@/features/clinic/services/clinic-service");
+      await clinicService.checkIn(activeClinic.id, selectedEntry.id, { online: isOnline });
+    } catch (e) {
+      console.error(e);
+    } finally {
+      setIsCheckingIn(false);
+    }
+  };
+
   const handleSubmit = (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault();
     setSubmittedMobile(mobile);
@@ -178,6 +193,28 @@ export default function StatusPage() {
                         </p>
                         <p className={`mt-1 text-lg font-black tracking-wide ${pharmacyRx.status === 'ready' ? 'text-[#ffd700] animate-pulse' : 'text-white'}`}>
                           {pharmacyRx.status === 'ready' ? 'READY TO COLLECT 💊' : 'Preparing Medicines...'}
+                        </p>
+                      </div>
+                    )}
+
+                    {!selectedEntry.arrivedAt && selectedEntry.status === "waiting" && (
+                      <div className="mt-4">
+                        <button
+                          onClick={handleCheckIn}
+                          disabled={isCheckingIn}
+                          className="btn bg-white text-[var(--accent-strong)] border-none w-full shadow-lg h-12 text-base font-bold transition-transform hover:scale-[1.02] active:scale-[0.98]"
+                        >
+                          {isCheckingIn ? "Loading..." : "I have arrived at Clinic"}
+                        </button>
+                        <p className="text-xs mt-2 text-white/70">
+                          Tap when you reach the clinic.
+                        </p>
+                      </div>
+                    )}
+                    {selectedEntry.arrivedAt && (
+                      <div className="mt-4 pt-3 border-t border-[rgba(255,255,255,0.1)]">
+                        <p className="text-xs text-white/90 font-medium">
+                          ✅ Arrived at {new Date(selectedEntry.arrivedAt).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}
                         </p>
                       </div>
                     )}

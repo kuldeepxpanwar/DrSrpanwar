@@ -314,6 +314,24 @@ export function advanceQueueState(state: ClinicState) {
   });
 }
 
+export function checkInState(state: ClinicState, entryId: string) {
+  const nextQueue = [...state.queue];
+  const index = nextQueue.findIndex((entry) => entry.id === entryId);
+
+  if (index >= 0) {
+    nextQueue[index] = {
+      ...nextQueue[index],
+      arrivedAt: new Date().toISOString(),
+      updatedAt: new Date().toISOString(),
+    };
+  }
+
+  return touchState({
+    ...state,
+    queue: nextQueue,
+  });
+}
+
 export function updateQueueStatusState(
   state: ClinicState,
   entryId: string,

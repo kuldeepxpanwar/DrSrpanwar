@@ -52,6 +52,7 @@ type QueueEntryRow = {
   notes: string | null;
   requires_pharmacy_follow_up: boolean;
   pharmacy_status: "not-needed" | "pending" | "done";
+  arrived_at?: string | Date | null;
 };
 
 type PendingSyncEntry = {
@@ -122,6 +123,7 @@ function mapQueueEntry(row: QueueEntryRow): QueueEntry {
     isReportCheck: row.notes?.includes("[REPORT_CHECK]") ?? false,
     requiresPharmacyFollowUp: row.requires_pharmacy_follow_up,
     pharmacyStatus: row.pharmacy_status,
+    arrivedAt: row.arrived_at ? toIsoString(row.arrived_at) : undefined,
   };
 }
 
@@ -215,7 +217,8 @@ async function readClinicQueueFrom(sql: QueryableDb, clinicId: ClinicId) {
       updated_at,
       notes,
       requires_pharmacy_follow_up,
-      pharmacy_status
+      pharmacy_status,
+      arrived_at
     from queue_entries
     where clinic_id = ${clinicId}
     order by queue_order asc
@@ -432,7 +435,8 @@ async function upsertRemoteEntries(clinicId: ClinicId, entries: PendingSyncEntry
           updated_at,
           notes,
           requires_pharmacy_follow_up,
-          pharmacy_status
+          pharmacy_status,
+          arrived_at
         )
         values (
           ${entry.id},
@@ -452,7 +456,8 @@ async function upsertRemoteEntries(clinicId: ClinicId, entries: PendingSyncEntry
           ${entry.updated_at},
           ${entry.notes},
           ${entry.requires_pharmacy_follow_up},
-          ${entry.pharmacy_status}
+          ${entry.pharmacy_status},
+          ${entry.arrived_at ?? null}
         )
       `;
 
@@ -638,6 +643,27 @@ export async function updateRemoteQueueEntryStatus(
   }
 
   return getRemoteClinicState(clinicId);
+}
+
+export async function updateRemoteQueueEntryArrivedAt(
+  clinicId: ClinicId,
+  entryId: string,
+  arrivedAt: string,
+) {
+  const db = getDb();
+  await db`
+    update queue_entries
+    set
+      arrived_at = ${arrivedAt},
+      updated_at = ${new Date().toISOString()}
+    where clinic_id = ${clinicId} and id = ${entryId}
+  `;
+
+  await db`
+    update clinic_states
+    set last_updated = ${new Date().toISOString()}
+    where clinic_id = ${clinicId}
+  `;
 }
 
 export async function markRemoteEntryAsReportCheck(clinicId: ClinicId, entryId: string) {
