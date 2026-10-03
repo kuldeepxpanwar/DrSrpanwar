@@ -271,7 +271,7 @@ export const clinicService = {
         `/api/clinics/${clinicId}/entries/${entryId}/check-in`,
         {},
       );
-      return persistState(response.state);
+      return persistState(response.data.state);
     }
 
     const state = await this.getClinicState(clinicId, { online: false });
