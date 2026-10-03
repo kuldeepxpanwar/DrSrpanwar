@@ -15,6 +15,9 @@ ALTER TABLE public.prescriptions ENABLE ROW LEVEL SECURITY;
 -- 2. Prescriptions Table needs an anon read policy 
 -- because the frontend listens to real-time events on this table via supabase.channel().
 -- Without a SELECT policy, real-time events are blocked for anon users.
+
+DROP POLICY IF EXISTS "Allow public read access to prescriptions for realtime" ON public.prescriptions;
+
 CREATE POLICY "Allow public read access to prescriptions for realtime" 
 ON public.prescriptions
 FOR SELECT 
