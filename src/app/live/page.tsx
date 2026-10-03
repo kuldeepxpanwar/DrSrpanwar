@@ -173,30 +173,30 @@ export default function LivePage() {
             <p className="text-sm font-extrabold uppercase tracking-[0.2em] text-[#00ffcc] drop-shadow-[0_0_8px_rgba(0,255,204,0.5)]">
               {activeClinicId === "pharmacy" ? "Ready To Collect" : t("live", "currentToken")}
             </p>
-            <div className={`mt-6 rounded-[32px] ${
+            <div className={`mt-6 rounded-[40px] ${
               (activeClinicId === "pharmacy" ? pharmacyReady?.token : current?.token) === myToken 
-                ? "bg-[linear-gradient(180deg,#3a3000,#725f00)] shadow-[0_0_40px_rgba(255,215,0,0.3)] border-2 border-[#ffd700]" 
-                : "bg-[linear-gradient(180deg,#00513f,#002118)] shadow-[0_0_30px_rgba(0,255,204,0.15)] border border-[#00ffcc]"
-            } px-8 py-12 relative overflow-hidden`}>
+                ? "bg-[linear-gradient(180deg,#3a3000,#725f00)] shadow-[0_0_60px_rgba(255,215,0,0.4)] border-4 border-[#ffd700]" 
+                : "bg-[linear-gradient(180deg,#00513f,#002118)] shadow-[0_0_50px_rgba(0,255,204,0.25)] border-2 border-[#00ffcc]"
+            } px-10 py-16 lg:py-24 relative overflow-hidden flex flex-col items-center text-center justify-center`}>
               {/* Glass reflection effect */}
-              <div className="absolute inset-0 bg-[linear-gradient(135deg,rgba(255,255,255,0.1)_0%,transparent_50%)] rounded-[32px] pointer-events-none" />
+              <div className="absolute inset-0 bg-[linear-gradient(135deg,rgba(255,255,255,0.1)_0%,transparent_50%)] rounded-[40px] pointer-events-none" />
               
               {(activeClinicId === "pharmacy" ? pharmacyReady?.token : current?.token) === myToken && (
-                <div className="absolute top-4 right-6 rounded-full bg-[#ffd700] px-4 py-1.5 text-xs font-black uppercase tracking-widest text-[#221b00] shadow-[0_0_20px_rgba(255,215,0,0.8)] animate-pulse">
+                <div className="absolute top-6 right-8 rounded-full bg-[#ffd700] px-5 py-2 text-sm font-black uppercase tracking-widest text-[#221b00] shadow-[0_0_20px_rgba(255,215,0,0.8)] animate-pulse">
                   ⭐ It's Your Turn!
                 </div>
               )}
-              <p className="display-type text-[5rem] flex items-center gap-4 leading-none sm:text-[7rem] lg:text-[9.5rem] font-black tracking-tighter text-[#fdfffc] drop-shadow-md">
-                {activeClinicId !== "pharmacy" && current?.isReportCheck && <span className="text-[#00ffcc] opacity-90 text-[4rem] sm:text-[6rem] lg:text-[8rem]">🔄</span>}
+              <p className="display-type text-[6rem] flex items-center justify-center gap-4 leading-none sm:text-[10rem] lg:text-[13rem] xl:text-[15rem] font-black tracking-tighter text-[#fdfffc] drop-shadow-lg">
+                {activeClinicId !== "pharmacy" && current?.isReportCheck && <span className="text-[#00ffcc] opacity-90 text-[5rem] sm:text-[8rem] lg:text-[10rem]">🔄</span>}
                 {activeClinicId === "pharmacy" 
                   ? (pharmacyReady?.token ?? "---") 
                   : (current?.token ?? `${activeClinic.prefix}-000`)}
               </p>
-              <p className="mt-4 flex items-center gap-2 text-2xl font-bold text-[#a2f1e6]">
+              <p className="mt-8 flex flex-wrap justify-center items-center gap-3 text-3xl sm:text-4xl lg:text-5xl font-bold text-[#a2f1e6]">
                 {activeClinicId === "pharmacy"
                   ? (pharmacyReady?.name ?? "No Medicines Ready")
                   : (current?.name ?? t("live", "queuePreparing"))}
-                {activeClinicId !== "pharmacy" && current?.isReportCheck && <span className="rounded-full bg-[#00ffcc]/20 px-3 py-1 text-xs font-bold text-[#00ffcc] uppercase tracking-wider">Report Check</span>}
+                {activeClinicId !== "pharmacy" && current?.isReportCheck && <span className="rounded-full bg-[#00ffcc]/20 px-4 py-2 text-sm sm:text-base font-bold text-[#00ffcc] uppercase tracking-wider ml-4">Report Check</span>}
               </p>
             </div>
 
