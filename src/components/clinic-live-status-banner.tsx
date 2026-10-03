@@ -36,14 +36,14 @@ export function ClinicLiveStatusBanner({ clinicId }: { clinicId: ClinicId }) {
       break;
     case "closed_for_day":
     case "on_leave":
-      // Premium Red
-      wrapperClass = "bg-[linear-gradient(135deg,#b91c1c,#ef4444)] border border-[#f87171]/40 shadow-[inset_0_1px_1px_rgba(255,255,255,0.3),0_8px_20px_-6px_rgba(239,68,68,0.5)]";
+      // Premium Red with Siren Glow Animation for CLOSED state
+      wrapperClass = "bg-[linear-gradient(135deg,#b91c1c,#ef4444)] border-2 border-red-400 animate-siren";
       iconColor = "bg-[#fecaca] shadow-[0_0_12px_#f87171]";
       break;
   }
 
   return (
-    <div className={`mt-5 sm:mt-6 mb-4 flex h-14 sm:h-16 w-full items-center overflow-hidden rounded-[16px] sm:rounded-[20px] text-white ${wrapperClass}`}>
+    <div className={`mt-5 sm:mt-6 mb-4 flex h-14 sm:h-16 w-full items-center overflow-hidden rounded-[16px] sm:rounded-[20px] text-white transition-all duration-300 ${wrapperClass}`}>
       {/* Left Pane - Live Indicator */}
       <div className="flex h-full items-center justify-center bg-[rgba(0,0,0,0.2)] px-4 sm:px-6 backdrop-blur-md z-10 border-r border-[rgba(255,255,255,0.15)] rounded-l-[16px] sm:rounded-l-[20px]">
         <span className="relative flex h-3.5 w-3.5 sm:h-4 sm:w-4">
@@ -74,9 +74,22 @@ export function ClinicLiveStatusBanner({ clinicId }: { clinicId: ClinicId }) {
             transform: translateX(-50%);
           }
         }
+        @keyframes siren {
+          0%, 100% {
+            box-shadow: 0 0 10px rgba(239,68,68,0.4), inset 0 1px 2px rgba(255,255,255,0.3);
+            border-color: rgba(248,113,113,0.5);
+          }
+          50% {
+            box-shadow: 0 0 35px rgba(239,68,68,0.95), inset 0 1px 2px rgba(255,255,255,0.3);
+            border-color: rgba(255,165,165,1);
+          }
+        }
         .animate-marquee {
           display: inline-block;
           animation: marquee 15s linear infinite;
+        }
+        .animate-siren {
+          animation: siren 1.5s ease-in-out infinite;
         }
       `}</style>
     </div>
