@@ -18,7 +18,7 @@ type WalkInConfirmation = {
 };
 
 export default function WalkInPage() {
-  const { activeClinic, activeClinicId, createWalkIn, isOnline, syncInFlight } = useClinic();
+  const { activeClinic, activeClinicId, createWalkIn, isOnline, syncInFlight, state } = useClinic();
   const { t } = useLang();
   const [name, setName] = useState("");
   const [mobile, setMobile] = useState("");
@@ -103,14 +103,14 @@ export default function WalkInPage() {
 
           <div className="mt-8 grid gap-6">
             {/* Form or Block Message */}
-            {!confirmation && schedule.status === "on_leave" ? (
+            {!confirmation && (schedule.status === "on_leave" || state?.emergencyClosed) ? (
               <div className="card p-8 text-center flex flex-col items-center">
                 <div className="h-16 w-16 rounded-full bg-red-50 text-red-500 flex items-center justify-center mb-4">
                   <AlertTriangle className="h-8 w-8" />
                 </div>
                 <h3 className="text-lg font-bold text-[var(--accent-strong)] mb-2">{t("home", "tokensClosed")}</h3>
                 <p className="text-sm text-[rgba(19,49,58,0.7)] mb-6">
-                  {schedule.message}
+                  {state?.emergencyClosed ? (state?.emergencyMessage || t("emergency", "defaultMessage")) : schedule.message}
                 </p>
                 <Link href={buildClinicHref("/book", activeClinicId)} className="btn btn-primary w-full justify-center">
                   {t("walkin", "bookInstead")}

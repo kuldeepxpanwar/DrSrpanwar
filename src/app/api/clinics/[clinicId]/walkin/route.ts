@@ -1,5 +1,5 @@
 import { readClinicId, ApiRouteError, jsonError } from "@/app/api/api-helpers";
-import { createRemoteWalkIn } from "@/lib/db/queue-store";
+import { createRemoteWalkIn, getRemoteClinicState } from "@/lib/db/queue-store";
 
 export const runtime = "nodejs";
 
@@ -19,6 +19,12 @@ export async function POST(
 
     if (!body.name?.trim() && !body.mobile?.trim()) {
       throw new ApiRouteError("Walk-in form needs at least a name or mobile number.", 400);
+    }
+
+    
+    const clinicState = await getRemoteClinicState(clinicId);
+    if (clinicState.emergency_closed || clinicState.emergencyClosed) {
+      throw new ApiRouteError("Clinic is currently closed. Walk-ins are not allowed.", 403);
     }
 
     const state = await createRemoteWalkIn({
