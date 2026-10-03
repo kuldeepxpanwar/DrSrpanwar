@@ -23,7 +23,7 @@ export async function POST(
 
     
     const clinicState = await getRemoteClinicState(clinicId);
-    if (clinicState.emergency_closed || clinicState.emergencyClosed) {
+    if (clinicState.emergencyClosed) {
       throw new ApiRouteError("Clinic is currently closed. Walk-ins are not allowed.", 403);
     }
 
