@@ -9,8 +9,8 @@ export function ClinicLiveStatusBanner({ clinicId }: { clinicId: ClinicId }) {
 
   if (schedule.status === "loading") {
     return (
-      <div className="mt-5 sm:mt-6 mb-2 flex h-10 sm:h-12 w-full animate-pulse items-center justify-center rounded-[1rem] bg-[rgba(19,49,58,0.05)]">
-        <Loader2 className="h-4 w-4 animate-spin text-[rgba(19,49,58,0.3)]" />
+      <div className="mt-5 sm:mt-6 mb-3 flex h-14 sm:h-16 w-full animate-pulse items-center justify-center rounded-[1rem] bg-[rgba(19,49,58,0.05)]">
+        <Loader2 className="h-5 w-5 animate-spin text-[rgba(19,49,58,0.3)]" />
       </div>
     );
   }
@@ -21,42 +21,46 @@ export function ClinicLiveStatusBanner({ clinicId }: { clinicId: ClinicId }) {
 
   // Determine styles based on status
   let wrapperClass = "";
-  let icon = "";
+  let iconColor = "";
 
   switch (schedule.status) {
     case "open":
-      // Green "Pati"
-      wrapperClass = "bg-[linear-gradient(90deg,#0f8a4f,#14a360)] border border-[rgba(20,163,96,0.3)] shadow-[0_4px_16px_rgba(20,163,96,0.2)]";
-      icon = "🟢";
+      // Premium Green
+      wrapperClass = "bg-[linear-gradient(135deg,#059669,#10b981)] border border-[#34d399]/40 shadow-[inset_0_1px_1px_rgba(255,255,255,0.3),0_8px_20px_-6px_rgba(16,185,129,0.5)]";
+      iconColor = "bg-[#a7f3d0] shadow-[0_0_12px_#34d399]";
       break;
     case "break":
-      // Orange "Pati"
-      wrapperClass = "bg-[linear-gradient(90deg,#d97706,#f59e0b)] border border-[rgba(245,158,11,0.3)] shadow-[0_4px_16px_rgba(245,158,11,0.2)]";
-      icon = "🟠";
+      // Premium Orange
+      wrapperClass = "bg-[linear-gradient(135deg,#ea580c,#f97316)] border border-[#fb923c]/40 shadow-[inset_0_1px_1px_rgba(255,255,255,0.3),0_8px_20px_-6px_rgba(249,115,22,0.5)]";
+      iconColor = "bg-[#fde68a] shadow-[0_0_12px_#fbbf24]";
       break;
     case "closed_for_day":
     case "on_leave":
-      // Red "Pati"
-      wrapperClass = "bg-[linear-gradient(90deg,#dc2626,#ef4444)] border border-[rgba(239,68,68,0.3)] shadow-[0_4px_16px_rgba(239,68,68,0.2)]";
-      icon = "🔴";
+      // Premium Red
+      wrapperClass = "bg-[linear-gradient(135deg,#b91c1c,#ef4444)] border border-[#f87171]/40 shadow-[inset_0_1px_1px_rgba(255,255,255,0.3),0_8px_20px_-6px_rgba(239,68,68,0.5)]";
+      iconColor = "bg-[#fecaca] shadow-[0_0_12px_#f87171]";
       break;
   }
 
   return (
-    <div className={`mt-5 sm:mt-6 mb-3 flex h-11 sm:h-12 w-full items-center overflow-hidden rounded-[14px] sm:rounded-[18px] text-white ${wrapperClass}`}>
-      <div className="flex h-full items-center justify-center bg-[rgba(0,0,0,0.15)] px-3 sm:px-4 backdrop-blur-sm z-10 border-r border-[rgba(255,255,255,0.1)] rounded-l-[14px] sm:rounded-l-[18px]">
-        <span className="text-sm sm:text-base animate-pulse shadow-sm">{icon}</span>
-        <span className="ml-1.5 text-xs sm:text-sm font-bold tracking-wider uppercase text-[rgba(255,255,255,0.95)]">Live</span>
+    <div className={`mt-5 sm:mt-6 mb-4 flex h-14 sm:h-16 w-full items-center overflow-hidden rounded-[16px] sm:rounded-[20px] text-white ${wrapperClass}`}>
+      {/* Left Pane - Live Indicator */}
+      <div className="flex h-full items-center justify-center bg-[rgba(0,0,0,0.2)] px-4 sm:px-6 backdrop-blur-md z-10 border-r border-[rgba(255,255,255,0.15)] rounded-l-[16px] sm:rounded-l-[20px]">
+        <span className="relative flex h-3.5 w-3.5 sm:h-4 sm:w-4">
+          <span className={`animate-ping absolute inline-flex h-full w-full rounded-full opacity-75 ${iconColor}`}></span>
+          <span className={`relative inline-flex rounded-full h-3.5 w-3.5 sm:h-4 sm:w-4 ${iconColor}`}></span>
+        </span>
+        <span className="ml-2.5 text-sm sm:text-base font-black tracking-widest uppercase text-white drop-shadow-sm">Live</span>
       </div>
       
       {/* Marquee Container */}
       <div className="relative flex h-full flex-1 items-center overflow-hidden">
         {/* We use two spans for continuous smooth marquee effect */}
-        <div className="animate-marquee whitespace-nowrap px-4 py-2 font-medium text-sm sm:text-[15px] tracking-[0.01em]">
+        <div className="animate-marquee whitespace-nowrap px-4 py-2 font-bold text-base sm:text-lg tracking-wide drop-shadow-md">
           {schedule.message}
-          <span className="inline-block w-16"></span>
+          <span className="mx-8 text-[rgba(255,255,255,0.5)]">•</span>
           {schedule.message}
-          <span className="inline-block w-16"></span>
+          <span className="mx-8 text-[rgba(255,255,255,0.5)]">•</span>
           {schedule.message}
         </div>
       </div>
@@ -72,7 +76,7 @@ export function ClinicLiveStatusBanner({ clinicId }: { clinicId: ClinicId }) {
         }
         .animate-marquee {
           display: inline-block;
-          animation: marquee 20s linear infinite;
+          animation: marquee 15s linear infinite;
         }
       `}</style>
     </div>
