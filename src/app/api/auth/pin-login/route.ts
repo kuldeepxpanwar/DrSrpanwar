@@ -115,7 +115,8 @@ export async function POST(request: Request) {
     // Zod validation
     const parsed = pinLoginSchema.safeParse(body);
     if (!parsed.success) {
-      return NextResponse.json({ message: parsed.error.errors[0].message }, { status: 400 });
+      const errorMessage = parsed.error.issues[0]?.message || "Invalid input";
+      return NextResponse.json({ message: errorMessage }, { status: 400 });
     }
 
     const pin = parsed.data.pin;
