@@ -5,10 +5,10 @@ import { ClinicId } from "@/features/clinic/types";
 
 export async function POST(
   request: Request,
-  { params }: { params: { clinicId: ClinicId; entryId: string } }
+  context: { params: Promise<{ clinicId: ClinicId; entryId: string }> }
 ) {
   try {
-    const { clinicId, entryId } = params;
+    const { clinicId, entryId } = await context.params;
 
     await updateRemoteQueueEntryArrivedAt(clinicId, entryId, new Date().toISOString());
 
