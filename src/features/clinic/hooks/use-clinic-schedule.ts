@@ -146,12 +146,12 @@ export function useClinicSchedule(clinicId: ClinicId) {
           return;
         }
 
-        // Just a regular weekly off or closed day
+        // Just a regular weekly off or week-schedule closed day — NO walk-ins
         const nextDayLabel = tomorrow.isOpen ? t("banner", "tomorrowAt") : t("banner", "later");
         setLiveState({
           status: "closed_for_day",
           message: `${t("banner", "clinicClosedToday")} ${nextDayLabel}.`,
-          isWalkInAllowed: true, // We allow overtime walk-ins
+          isWalkInAllowed: false, // Weekly off / scheduled close — walk-ins not allowed
         });
         return;
       }

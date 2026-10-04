@@ -1,5 +1,6 @@
 import { readClinicId, ApiRouteError, jsonError } from "@/app/api/api-helpers";
 import { createRemoteWalkIn, getRemoteClinicState } from "@/lib/db/queue-store";
+import { resolveScheduleForDate, todayDateStr } from "@/lib/db/schedule-store";
 
 export const runtime = "nodejs";
 
@@ -25,6 +26,12 @@ export async function POST(
     const clinicState = await getRemoteClinicState(clinicId);
     if (clinicState.emergencyClosed) {
       throw new ApiRouteError("Clinic is currently closed. Walk-ins are not allowed.", 403);
+    }
+
+    // Check if today's schedule allows walk-ins (weekly off, full-day override, etc.)
+    const todaySchedule = await resolveScheduleForDate(clinicId, todayDateStr());
+    if (!todaySchedule.isOpen) {
+      throw new ApiRouteError("Clinic is closed today. Walk-in tokens are not available.", 403);
     }
 
     const state = await createRemoteWalkIn({
