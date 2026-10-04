@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"
+        xmlns:xhtml="http://www.w3.org/1999/xhtml">
+
+  <!-- Home Page -->
+  <url>
+    <loc>https://drpanwarclinic.vercel.app/</loc>
+    <lastmod>2026-10-04</lastmod>
+    <changefreq>daily</changefreq>
+    <priority>1.0</priority>
+    <xhtml:link rel="alternate" hreflang="hi" href="https://drpanwarclinic.vercel.app/"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://drpanwarclinic.vercel.app/"/>
+  </url>
+
+  <!-- Book Appointment -->
+  <url>
+    <loc>https://drpanwarclinic.vercel.app/book</loc>
+    <lastmod>2026-10-04</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.9</priority>
+  </url>
+
+  <!-- Walk-in Token -->
+  <url>
+    <loc>https://drpanwarclinic.vercel.app/walkin</loc>
+    <lastmod>2026-10-04</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.9</priority>
+  </url>
+
+  <!-- Live Queue -->
+  <url>
+    <loc>https://drpanwarclinic.vercel.app/live</loc>
+    <lastmod>2026-10-04</lastmod>
+    <changefreq>always</changefreq>
+    <priority>0.8</priority>
+  </url>
+
+  <!-- Token Status -->
+  <url>
+    <loc>https://drpanwarclinic.vercel.app/status</loc>
+    <lastmod>2026-10-04</lastmod>
+    <changefreq>always</changefreq>
+    <priority>0.7</priority>
+  </url>
+
+  <!-- Schedule Info -->
+  <url>
+    <loc>https://drpanwarclinic.vercel.app/schedule</loc>
+    <lastmod>2026-10-04</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.6</priority>
+  </url>
+
+</urlset>

@@ -1,0 +1,37 @@
+# Panwar Health Care — robots.txt
+# https://drpanwarclinic.vercel.app
+
+User-agent: *
+Allow: /
+
+# Block internal API routes from indexing
+Disallow: /api/
+Disallow: /staff
+
+# Allow all major AI search bots for citation
+User-agent: GPTBot
+Allow: /
+
+User-agent: ChatGPT-User
+Allow: /
+
+User-agent: PerplexityBot
+Allow: /
+
+User-agent: ClaudeBot
+Allow: /
+
+User-agent: anthropic-ai
+Allow: /
+
+User-agent: Google-Extended
+Allow: /
+
+User-agent: Bingbot
+Allow: /
+
+# Block training-only crawlers (not search/citation bots)
+User-agent: CCBot
+Disallow: /
+
+Sitemap: https://drpanwarclinic.vercel.app/sitemap.xml

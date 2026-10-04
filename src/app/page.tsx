@@ -267,6 +267,21 @@ export default function HomePage() {
                   </a>
                 )}
               </div>
+
+              {/* Google Maps Embed for Local SEO */}
+              {activeClinic.id === "surgery" && (
+                <div className="mt-6 w-full overflow-hidden rounded-[1rem] shadow-sm border border-[rgba(12,86,81,0.08)]">
+                  <iframe
+                    src="https://maps.google.com/maps?q=26.912695,70.905230&z=16&output=embed"
+                    width="100%"
+                    height="200"
+                    loading="lazy"
+                    style={{ border: 0 }}
+                    allowFullScreen
+                    title="Clinic Location Map"
+                  />
+                </div>
+              )}
             </div>
 
             {/* Premium Connect Card */}
@@ -364,7 +379,7 @@ export default function HomePage() {
 
               <div className="flex flex-col gap-3">
                 <a 
-                  href="tel:+919358752147"
+                  href="tel:+919636243621"
                   className="flex items-center gap-4 w-full p-4 rounded-2xl bg-white border border-[rgba(19,49,58,0.06)] shadow-[0_2px_8px_rgba(19,49,58,0.03)] hover:-translate-y-0.5 transition-transform active:scale-95"
                 >
                   <div className="flex h-10 w-10 items-center justify-center rounded-xl bg-blue-50 text-blue-600">
@@ -372,7 +387,7 @@ export default function HomePage() {
                   </div>
                   <div className="flex-1 text-left min-w-0">
                     <p className="text-[0.95rem] font-bold text-[var(--accent-strong)]">Call</p>
-                    <p className="text-[0.8rem] font-medium text-[rgba(19,49,58,0.5)] truncate">+91 9358752147</p>
+                    <p className="text-[0.8rem] font-medium text-[rgba(19,49,58,0.5)] truncate">+91 9636243621</p>
                   </div>
                   <ExternalLink className="h-4 w-4 text-[rgba(19,49,58,0.2)]" />
                 </a>
