@@ -1,5 +1,5 @@
 # Panwar Health Care — robots.txt
-# https://drpanwarclinic.vercel.app
+# https://drsattarampanwar.com
 
 User-agent: *
 Allow: /
@@ -34,4 +34,4 @@ Allow: /
 User-agent: CCBot
 Disallow: /
 
-Sitemap: https://drpanwarclinic.vercel.app/sitemap.xml
+Sitemap: https://drsattarampanwar.com/sitemap.xml
