@@ -4,52 +4,44 @@
 
   <!-- Home Page -->
   <url>
-    <loc>https://drpanwarclinic.vercel.app/</loc>
-    <lastmod>2026-10-04</lastmod>
+    <loc>https://drsattarampanwar.com/</loc>
+    <lastmod>2026-11-23</lastmod>
     <changefreq>daily</changefreq>
     <priority>1.0</priority>
-    <xhtml:link rel="alternate" hreflang="hi" href="https://drpanwarclinic.vercel.app/"/>
-    <xhtml:link rel="alternate" hreflang="en" href="https://drpanwarclinic.vercel.app/"/>
+    <xhtml:link rel="alternate" hreflang="hi" href="https://drsattarampanwar.com/"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://drsattarampanwar.com/"/>
   </url>
 
   <!-- Book Appointment -->
   <url>
-    <loc>https://drpanwarclinic.vercel.app/book</loc>
-    <lastmod>2026-10-04</lastmod>
+    <loc>https://drsattarampanwar.com/book</loc>
+    <lastmod>2026-11-23</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.9</priority>
   </url>
 
   <!-- Walk-in Token -->
   <url>
-    <loc>https://drpanwarclinic.vercel.app/walkin</loc>
-    <lastmod>2026-10-04</lastmod>
+    <loc>https://drsattarampanwar.com/walkin</loc>
+    <lastmod>2026-11-23</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.9</priority>
   </url>
 
   <!-- Live Queue -->
   <url>
-    <loc>https://drpanwarclinic.vercel.app/live</loc>
-    <lastmod>2026-10-04</lastmod>
+    <loc>https://drsattarampanwar.com/live</loc>
+    <lastmod>2026-11-23</lastmod>
     <changefreq>always</changefreq>
     <priority>0.8</priority>
   </url>
 
   <!-- Token Status -->
   <url>
-    <loc>https://drpanwarclinic.vercel.app/status</loc>
-    <lastmod>2026-10-04</lastmod>
+    <loc>https://drsattarampanwar.com/status</loc>
+    <lastmod>2026-11-23</lastmod>
     <changefreq>always</changefreq>
     <priority>0.7</priority>
-  </url>
-
-  <!-- Schedule Info -->
-  <url>
-    <loc>https://drpanwarclinic.vercel.app/schedule</loc>
-    <lastmod>2026-10-04</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.6</priority>
   </url>
 
 </urlset>

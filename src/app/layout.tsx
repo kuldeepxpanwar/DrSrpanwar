@@ -32,7 +32,7 @@ const hindiFont = Noto_Sans_Devanagari({
   weight: ["400", "500", "600", "700"],
 });
 
-const SITE_URL = "https://drpanwarclinic.vercel.app";
+const SITE_URL = "https://drsattarampanwar.com";
 const CLINIC_PHONE = "+919636243621";
 
 export const metadata: Metadata = {
